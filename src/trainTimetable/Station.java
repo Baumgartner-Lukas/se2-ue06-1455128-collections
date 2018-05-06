@@ -11,4 +11,9 @@ public class Station {
         this.name = name;
         stops = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return  name;
+    }
 }

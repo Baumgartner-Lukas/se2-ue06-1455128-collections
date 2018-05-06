@@ -1,22 +1,33 @@
 package trainTimetable;
 
-public class Stop implements Comparable{
-    private final String name;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-    public Stop(String name) {
-        this.name = name;
+public class Stop implements Comparable {
+    private final Train train;
+    private final Station station;
+    private final int platform;
+    private final LocalTime time;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+    public Stop(Train train, Station station, int platform, String time) {
+        this.train = train;
+        this.station = station;
+        this.platform = platform;
+        this.time = LocalTime.from(formatter.parse(time));
     }
 
     @Override
     public int compareTo(Object o) {
-        if(o instanceof Stop){
+        //ToDo: Compare Time first, if eqaul compare platform
+        if (o instanceof Stop) {
             Stop stop = (Stop) o;
-            return this.name.compareTo(stop.name);
-        }else return -1;
+            return this.time.compareTo(stop.time);
+        } else return -1;
     }
 
     @Override
     public String toString() {
-        return "Stop: " + name;
+        return "" + time + " " + station.toString() + "(" + platform + ")";
     }
 }
