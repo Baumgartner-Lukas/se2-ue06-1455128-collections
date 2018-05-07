@@ -3,7 +3,7 @@ package trainTimetable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Stop implements Comparable {
+public class Stop implements Comparable<Stop> {
     private final Train train;
     private final Station station;
     private final int platform;
@@ -18,12 +18,36 @@ public class Stop implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        //ToDo: Compare Time first, if eqaul compare platform
-        if (o instanceof Stop) {
-            Stop stop = (Stop) o;
-            return this.time.compareTo(stop.time);
-        } else return -1;
+    public int compareTo(Stop other){
+        int compare = this.time.compareTo(other.time);
+        if(compare == 0){
+            compare = this.platform - other.platform;
+        }
+        return compare;
+    }
+
+    Station getStation() {
+        return station;
+    }
+
+    LocalTime getTime(){
+        return time;
+    }
+
+    int getPlatform() {
+        return platform;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Stop){
+            Stop other = (Stop) obj;
+            return this.train.equals(other.train)
+                    && this.station.equals(other.station)
+                    && this.time.equals(other.time)
+                    && this.platform == other.platform;
+        }
+        return false;
     }
 
     @Override
