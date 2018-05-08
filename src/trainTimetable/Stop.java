@@ -26,18 +26,6 @@ public class Stop implements Comparable<Stop> {
         return compare;
     }
 
-    Station getStation() {
-        return station;
-    }
-
-    LocalTime getTime(){
-        return time;
-    }
-
-    int getPlatform() {
-        return platform;
-    }
-
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Stop){
@@ -52,6 +40,22 @@ public class Stop implements Comparable<Stop> {
 
     @Override
     public String toString() {
-        return "" + time + " " + station.toString() + "(" + platform + ")";
+        return String.format("  %s %s %d", time, station, platform);
     }
+
+    Station getStation() {
+        return station;
+    }
+
+    LocalTime getTime(){
+        return time;
+    }
+
+    int getPlatform() {
+        return platform;
+    }
+
+    Train getTrain(){ return train;}
+
+
 }

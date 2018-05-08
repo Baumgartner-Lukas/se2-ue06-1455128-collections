@@ -1,9 +1,11 @@
 import trainTimetable.Station;
 import trainTimetable.Stop;
+import trainTimetable.TimeTable;
 import trainTimetable.Train;
 
 public class Main {
     public static void main(String[] args) {
+        TimeTable timeTable = new TimeTable();
 
         Station wien = new Station("Wien");
         Station stpoelten = new Station("St. Poelten");
@@ -25,8 +27,12 @@ public class Main {
         Stop oebbStpoelten = new Stop(oebb, stpoelten, 1, "06:30");
         Stop oebbAmstetten = new Stop(oebb, amstetten, 2, "07:00");
         Stop oebbStValentin = new Stop(oebb, stvalentin, 1, "07:15");
-        Stop oebbLinz = new Stop(oebb, linz, 8, "07:30");
+        Stop oebbLinz = new Stop(oebb, linz, 8, "07:29");
         Stop oebbWels = new Stop(oebb, wels, 3, "07:59");
+
+        timeTable.addStop(oebbWien);
+        timeTable.addStop(oebbWels);
+        timeTable.addStop(oebbWels);
 
         westbahn.addStop(westAmstetten);
         westbahn.addStop(westLinz);
@@ -54,18 +60,24 @@ public class Main {
         wels.addStop(oebbAmstetten);
 
         System.out.println("Get first stop");
-        System.out.printf(westbahn.getFirstStop() + "%n%n");
+        System.out.printf(westbahn.getFirstStop() + "%n");
 
         System.out.println("Get last stop");
-        System.out.printf(westbahn.getLastStop() + "%n%n");
+        System.out.printf(westbahn.getLastStop() + "%n");
 
         System.out.println("Get all stops");
-        System.out.printf(westbahn.getAllStops() + "%n%n");
+        westbahn.getAllStops().forEach(System.out::println);
 
-        System.out.println("Get stops from");
-        System.out.printf(westbahn.getStopsFrom("Amstetten") + "%n%n");
+        System.out.println("Get stops from Amstetten");
+        westbahn.getStopsFrom("Amstetten").forEach(System.out::println);
 
         System.out.println("Get stops of station by platform");
-        System.out.printf(linz.getStopsByPlatform() + "%n%n");
+        linz.getStopsByPlatform().forEach(System.out::println);
+
+        System.out.println("Get stops of station by time");
+        linz.getStopsByTime().forEach(System.out::println);
+
+        System.out.println("Get all trains for this station");
+        wien.getAllTrainsForStation().forEach(System.out::println);
     }
 }

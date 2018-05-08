@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Train {
+public class Train{
     private final String name;
     private TreeSet<Stop> stops;
 
     public Train(String name) {
         this.name = name;
-        this.stops = new TreeSet<>();
+        this.stops = new TreeSet<>(new StopComparator()); // ???
     }
 
     /**
@@ -28,8 +28,8 @@ public class Train {
      *
      * @return the origin Trainstation
      */
-    public String getFirstStop() {
-        return String.format(" %s %n  %s", name, stops.first());
+    public Stop getFirstStop() {
+        return stops.first();
     }
 
     /**
@@ -37,8 +37,8 @@ public class Train {
      *
      * @return the destination Trainstation
      */
-    public String getLastStop() {
-        return String.format(" %s %n  %s", name, stops.last());
+    public Stop getLastStop() {
+        return stops.last();
     }
 
     /**
@@ -46,13 +46,8 @@ public class Train {
      *
      * @return the set of stops
      */
-    public String getAllStops() {
-        StringBuilder allStops = new StringBuilder();
-        allStops.append(String.format("%s %n", name));
-        for(Stop s : stops){
-            allStops.append(String.format(" %s %n", s));
-        }
-        return String.valueOf(allStops);
+    public Set<Stop> getAllStops() {
+        return stops;
     }
 
     /**
@@ -61,25 +56,30 @@ public class Train {
      * @param from name of the Stop from where the other stops are returned
      * @return a set of Stops from the given Stop
      */
-    public String getStopsFrom(String from) {
+    public Set<Stop> getStopsFrom(String from) {
         Iterator<Stop> itr = stops.iterator();
-        StringBuilder stopsFrom = new StringBuilder();
-        stopsFrom.append(String.format("Connections from %s %n", from));
-        while(itr.hasNext()){
+        TreeSet<Stop> stopsFrom = new TreeSet<>();
+        //StringBuilder stopsFrom = new StringBuilder();
+        //stopsFrom.append(String.format("Connections from %s %n", from));
+        while (itr.hasNext()) {
             Stop s = itr.next();
-            if(s.getStation().getName().equals(from)){
-                while(itr.hasNext()){
-                    Stop stop = itr.next();
-                    stopsFrom.append(String.format(" %s %n", stop));
+            if (s.getStation().getName().equals(from)) {
+                while (itr.hasNext()) {
+                    stopsFrom.add(itr.next());
                 }
             }
         }
-        return String.valueOf(stopsFrom);
+        return stopsFrom;
     }
+
 
     @Override
     public String toString() {
-        return "Train: " + name + '\n' +
-                "   Stops" + stops;
+        return "  " + name;
     }
+
+    String getName() {
+        return name;
+    }
+
 }
